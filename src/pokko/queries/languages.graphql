@@ -1,0 +1,14 @@
+query Languages {
+  entries{
+    allLanguage(skip:0 take: 100){
+      nodes{
+        id
+        name
+        localisation
+        flagImage{
+          url
+        }
+      }
+    }
+  }
+}

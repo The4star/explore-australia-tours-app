@@ -1,0 +1,11 @@
+schema: 
+  - https://au-syd1.pokko.io/${POKKO_PROJECT}/${POKKO_ENVIRONMENT}/graphql:
+      headers: 
+        "X-Token": ${POKKO_TOKEN}
+documents: "./src/**/*.graphql"
+generates:
+  ./src/pokko/query.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
