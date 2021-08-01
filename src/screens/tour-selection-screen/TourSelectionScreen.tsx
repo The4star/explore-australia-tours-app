@@ -13,8 +13,8 @@ interface ITourSelectionScreenProps {
 }
 
 const TourSelectionScreen = ({ navigation }: ITourSelectionScreenProps) => {
-  const { loading, data } = useToursListQuery({ client })
-  const tours = data?.entries?.allTour?.nodes as Tour[]
+  const { loading, data } = useToursListQuery({ client });
+  const tours = data?.entries?.allTour?.nodes as Tour[];
 
   if (loading) {
     return (

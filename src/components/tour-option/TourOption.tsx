@@ -1,5 +1,7 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './TourOption.styles';
 interface ITourOptionProps {
   tourName: string;
@@ -8,6 +10,17 @@ interface ITourOptionProps {
 }
 
 const TourOption = ({ tourName, imageUri, onPress }: ITourOptionProps) => {
+  const getLanguage = async () => {
+    try {
+      const userLanguage = await AsyncStorage.getItem('Language') as string;
+      if (userLanguage !== 'en') {
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
   return (
     <TouchableOpacity onPress={() => onPress()}>
       <View style={styles.card}>

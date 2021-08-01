@@ -1,7 +1,7 @@
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react'
-import { View, Text, ActivityIndicator, Image } from 'react-native';
+import { View, ActivityIndicator, Image } from 'react-native';
 import colors from '../../constants/colors';
 import { client } from '../../pokko/pokko-config';
 import { Tour, useTourContentQuery } from '../../pokko/query';
