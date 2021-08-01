@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   FlatList,
-  ListRenderItemInfo
+  ListRenderItemInfo,
+  Alert
 } from 'react-native';
 import * as Localization from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,20 +17,35 @@ import { client } from '../../pokko/pokko-config'
 import { Language, useLanguagesQuery } from '../../pokko/query';
 import colors from '../../constants/colors';
 import LanguageOption from '../../components/language-option/LanguageOption';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { TourCommentaryStackParamList } from '../../types/navigation.types';
 
-const LanguageScreen = () => {
+interface ILanguageScreenProps {
+  navigation: StackNavigationProp<TourCommentaryStackParamList, 'LanguageSelection'>
+}
+
+
+const LanguageScreen = ({ navigation }: ILanguageScreenProps) => {
   const { loading, data } = useLanguagesQuery({ client });
   const languages = data?.entries?.allLanguage?.nodes as Language[]
-  console.log(languages);
-
   const setLanguage = (selectedLanguage?: string) => {
     try {
       // https://www.venea.net/web/culture_code
+      const availableLocales = languages.map(l => l.localisation);
       const languageToUse = selectedLanguage ? selectedLanguage : Localization.locale.split("-")[0];
       console.log(languageToUse);
+      if (!availableLocales.includes(languageToUse)) {
+        throw new Error("Language not available, please choose one from the list");
+      }
       AsyncStorage.setItem('Language', languageToUse);
-    } catch (error) {
-      console.log(error);
+      navigation.navigate({
+        name: "TourSelection",
+        params: undefined
+      })
+    } catch (error: any) {
+      Alert.alert('Language Error', error.message, [
+        { text: "OK" }
+      ])
     }
   }
 

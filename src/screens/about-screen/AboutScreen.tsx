@@ -4,7 +4,7 @@ import styles from './AboutScreen.styles';
 
 const AboutScreen = () => {
   return (
-    <View>
+    <View style={styles.screen}>
       <Text>About Screen</Text>
     </View>
   )

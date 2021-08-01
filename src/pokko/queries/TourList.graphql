@@ -1,0 +1,13 @@
+query ToursList{
+  entries{
+    allTour(skip: 0 take:100){
+      nodes{
+        id
+        name
+        heroImage{
+          url
+        }
+      }
+    }
+  }
+}

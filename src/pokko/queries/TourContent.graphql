@@ -1,0 +1,34 @@
+query TourContent($id: String!){
+  entry(id: $id){
+    ...on Tour{
+      id
+      name
+      heroImage{
+        url
+      }
+      chapters{
+        ...on TourChapter{
+          id
+          name
+          heroImage{
+            url
+          }
+          content{
+            ...on ChapterContent{
+              id
+              language{
+                localisation
+              }
+              text{
+                body
+              }
+              audioFile{
+                url
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

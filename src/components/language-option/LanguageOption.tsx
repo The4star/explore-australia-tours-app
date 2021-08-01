@@ -5,13 +5,13 @@ import styles from './LanguageOption.styles';
 interface ILanguageOptionProps {
   language: string;
   imageUri: string;
-  onPress: (language: string) => void;
+  onPress: () => void;
 
 }
 const LanguageOption = ({ language, imageUri, onPress }: ILanguageOptionProps) => {
   return (
     <View style={styles.wrapper}>
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={() => onPress()}>
         <Image source={{ uri: imageUri }} style={styles.image} />
         <View style={styles.absolute}>
           <Text style={styles.text}>{language}</Text>
