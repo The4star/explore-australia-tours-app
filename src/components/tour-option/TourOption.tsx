@@ -1,17 +1,26 @@
 import React from 'react'
-import { View, Text } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import styles from './TourOption.styles';
 interface ITourOptionProps {
-  tourName: string
+  tourName: string;
+  imageUri: string;
+  onPress: () => void;
 }
 
-const TourOption = ({ tourName }: ITourOptionProps) => {
+const TourOption = ({ tourName, imageUri, onPress }: ITourOptionProps) => {
   return (
-    <View>
-      <Text>
-        {tourName}
-      </Text>
-    </View>
+    <TouchableOpacity onPress={() => onPress()}>
+      <View style={styles.card}>
+        <View style={styles.imageContainer}>
+          <Image style={styles.image} source={{ uri: imageUri }} />
+        </View>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>
+            {tourName}
+          </Text>
+        </View>
+      </View >
+    </TouchableOpacity>
   )
 }
 

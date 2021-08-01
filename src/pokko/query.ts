@@ -511,10 +511,47 @@ export type LanguagesQuery = (
   )> }
 );
 
-export type ToursQueryVariables = Exact<{ [key: string]: never; }>;
+export type TourContentQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
 
 
-export type ToursQuery = (
+export type TourContentQuery = (
+  { __typename?: 'Query' }
+  & { entry?: Maybe<{ __typename?: 'AboutPage' } | { __typename?: 'ChapterContent' } | { __typename?: 'Language' } | (
+    { __typename?: 'Tour' }
+    & Pick<Tour, 'id' | 'name'>
+    & { heroImage: (
+      { __typename?: 'PokMedia' }
+      & Pick<PokMedia, 'url'>
+    ), chapters: Array<Maybe<(
+      { __typename?: 'TourChapter' }
+      & Pick<TourChapter, 'id' | 'name'>
+      & { heroImage: (
+        { __typename?: 'PokMedia' }
+        & Pick<PokMedia, 'url'>
+      ), content: Array<Maybe<(
+        { __typename?: 'ChapterContent' }
+        & Pick<ChapterContent, 'id'>
+        & { language: (
+          { __typename?: 'Language' }
+          & Pick<Language, 'localisation'>
+        ), text?: Maybe<(
+          { __typename?: 'PokRichText' }
+          & Pick<PokRichText, 'body'>
+        )>, audioFile?: Maybe<(
+          { __typename?: 'PokMedia' }
+          & Pick<PokMedia, 'url'>
+        )> }
+      )>> }
+    )>> }
+  ) | { __typename?: 'TourChapter' }> }
+);
+
+export type ToursListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ToursListQuery = (
   { __typename?: 'Query' }
   & { entries?: Maybe<(
     { __typename?: 'Entries' }
@@ -526,26 +563,7 @@ export type ToursQuery = (
         & { heroImage: (
           { __typename?: 'PokMedia' }
           & Pick<PokMedia, 'url'>
-        ), chapters: Array<Maybe<(
-          { __typename?: 'TourChapter' }
-          & Pick<TourChapter, 'name'>
-          & { heroImage: (
-            { __typename?: 'PokMedia' }
-            & Pick<PokMedia, 'url'>
-          ), content: Array<Maybe<(
-            { __typename?: 'ChapterContent' }
-            & { language: (
-              { __typename?: 'Language' }
-              & Pick<Language, 'localisation'>
-            ), text?: Maybe<(
-              { __typename?: 'PokRichText' }
-              & Pick<PokRichText, 'body'>
-            )>, audioFile?: Maybe<(
-              { __typename?: 'PokMedia' }
-              & Pick<PokMedia, 'url'>
-            )> }
-          )>> }
-        )>> }
+        ) }
       )>> }
     )> }
   )> }
@@ -595,30 +613,30 @@ export function useLanguagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<
 export type LanguagesQueryHookResult = ReturnType<typeof useLanguagesQuery>;
 export type LanguagesLazyQueryHookResult = ReturnType<typeof useLanguagesLazyQuery>;
 export type LanguagesQueryResult = Apollo.QueryResult<LanguagesQuery, LanguagesQueryVariables>;
-export const ToursDocument = gql`
-    query Tours {
-  entries {
-    allTour(skip: 0, take: 100) {
-      nodes {
-        id
-        name
-        heroImage {
-          url
-        }
-        chapters {
-          ... on TourChapter {
-            name
-            heroImage {
-              url
-            }
-            content {
-              ... on ChapterContent {
-                language {
-                  localisation
-                }
-                text {
-                  body
-                }
+export const TourContentDocument = gql`
+    query TourContent($id: String!) {
+  entry(id: $id) {
+    ... on Tour {
+      id
+      name
+      heroImage {
+        url
+      }
+      chapters {
+        ... on TourChapter {
+          id
+          name
+          heroImage {
+            url
+          }
+          content {
+            ... on ChapterContent {
+              id
+              language {
+                localisation
+              }
+              text {
+                body
               }
               audioFile {
                 url
@@ -633,28 +651,71 @@ export const ToursDocument = gql`
     `;
 
 /**
- * __useToursQuery__
+ * __useTourContentQuery__
  *
- * To run a query within a React component, call `useToursQuery` and pass it any options that fit your needs.
- * When your component renders, `useToursQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useTourContentQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTourContentQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useToursQuery({
+ * const { data, loading, error } = useTourContentQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useTourContentQuery(baseOptions: Apollo.QueryHookOptions<TourContentQuery, TourContentQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<TourContentQuery, TourContentQueryVariables>(TourContentDocument, options);
+      }
+export function useTourContentLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<TourContentQuery, TourContentQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<TourContentQuery, TourContentQueryVariables>(TourContentDocument, options);
+        }
+export type TourContentQueryHookResult = ReturnType<typeof useTourContentQuery>;
+export type TourContentLazyQueryHookResult = ReturnType<typeof useTourContentLazyQuery>;
+export type TourContentQueryResult = Apollo.QueryResult<TourContentQuery, TourContentQueryVariables>;
+export const ToursListDocument = gql`
+    query ToursList {
+  entries {
+    allTour(skip: 0, take: 100) {
+      nodes {
+        id
+        name
+        heroImage {
+          url
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useToursListQuery__
+ *
+ * To run a query within a React component, call `useToursListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useToursListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useToursListQuery({
  *   variables: {
  *   },
  * });
  */
-export function useToursQuery(baseOptions?: Apollo.QueryHookOptions<ToursQuery, ToursQueryVariables>) {
+export function useToursListQuery(baseOptions?: Apollo.QueryHookOptions<ToursListQuery, ToursListQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ToursQuery, ToursQueryVariables>(ToursDocument, options);
+        return Apollo.useQuery<ToursListQuery, ToursListQueryVariables>(ToursListDocument, options);
       }
-export function useToursLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ToursQuery, ToursQueryVariables>) {
+export function useToursListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ToursListQuery, ToursListQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ToursQuery, ToursQueryVariables>(ToursDocument, options);
+          return Apollo.useLazyQuery<ToursListQuery, ToursListQueryVariables>(ToursListDocument, options);
         }
-export type ToursQueryHookResult = ReturnType<typeof useToursQuery>;
-export type ToursLazyQueryHookResult = ReturnType<typeof useToursLazyQuery>;
-export type ToursQueryResult = Apollo.QueryResult<ToursQuery, ToursQueryVariables>;
+export type ToursListQueryHookResult = ReturnType<typeof useToursListQuery>;
+export type ToursListLazyQueryHookResult = ReturnType<typeof useToursListLazyQuery>;
+export type ToursListQueryResult = Apollo.QueryResult<ToursListQuery, ToursListQueryVariables>;

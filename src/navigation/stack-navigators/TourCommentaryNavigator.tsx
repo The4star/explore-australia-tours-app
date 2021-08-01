@@ -6,6 +6,7 @@ import TourCommentaryScreen from '../../screens/tour-commentary-screen/TourComme
 import TourSelectionScreen from '../../screens/tour-selection-screen/TourSelectionScreen';
 import { TourCommentaryStackParamList } from '../../types/navigation.types';
 import { defaultScreenOptions } from './stack-navigator-options';
+import { RouteProp } from '@react-navigation/native';
 
 const TourCommentaryStack = createStackNavigator<TourCommentaryStackParamList>();
 
@@ -32,9 +33,9 @@ const TourCommentaryNavigator = () => (
     <TourCommentaryStack.Screen
       name="ChapterSelection"
       component={ChapterSelectionScreen}
-      options={() => {
+      options={({ route }: { route: RouteProp<TourCommentaryStackParamList, "ChapterSelection"> }) => {
         return {
-          headerTitle: "Tour name goes here"
+          headerTitle: route.params.tourName
         }
       }}
     />
