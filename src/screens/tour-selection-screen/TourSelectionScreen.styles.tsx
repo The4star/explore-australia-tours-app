@@ -10,8 +10,6 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    // alignItems: "center",
-    // marginVertical: 20
   }
 })
 

@@ -16,7 +16,7 @@ export type Scalars = {
   JSON: any;
 };
 
-export type AboutPage = PokEntry & PokValue & IAboutPage & {
+export type AboutPage = PokEntry & IAboutPage & {
   __typename?: 'AboutPage';
   id: Scalars['String'];
   pokko: Pokko;
@@ -28,7 +28,7 @@ export type AboutPage = PokEntry & PokValue & IAboutPage & {
 
 export type AboutPageCollection = {
   __typename?: 'AboutPageCollection';
-  nodes: Array<Maybe<AboutPage>>;
+  nodes: Array<Maybe<IAboutPage>>;
   pageInfo: PageInfo;
   totalCount: Scalars['Int'];
 };
@@ -60,10 +60,9 @@ export enum AboutPageOrderBy {
   PromoVideoLinkDesc = 'PROMO_VIDEO_LINK_DESC'
 }
 
-export type ChapterContent = PokEntry & PokValue & IChapterContent & {
+export type ChapterContent = PokValue & IChapterContent & {
   __typename?: 'ChapterContent';
   id: Scalars['String'];
-  pokko: Pokko;
   language: Language;
   audioFile?: Maybe<PokMedia>;
   text?: Maybe<PokRichText>;
@@ -71,7 +70,7 @@ export type ChapterContent = PokEntry & PokValue & IChapterContent & {
 
 export type ChapterContentCollection = {
   __typename?: 'ChapterContentCollection';
-  nodes: Array<Maybe<ChapterContent>>;
+  nodes: Array<Maybe<IChapterContent>>;
   pageInfo: PageInfo;
   totalCount: Scalars['Int'];
 };
@@ -101,11 +100,13 @@ export type Entries = {
   __typename?: 'Entries';
   tourChapter?: Maybe<TourChapter>;
   chapterContent?: Maybe<ChapterContent>;
+  titleTranslation?: Maybe<TitleTranslation>;
   tour?: Maybe<Tour>;
   language?: Maybe<Language>;
   aboutPage?: Maybe<AboutPage>;
   allTourChapter?: Maybe<TourChapterCollection>;
   allChapterContent?: Maybe<ChapterContentCollection>;
+  allTitleTranslation?: Maybe<TitleTranslationCollection>;
   allTour?: Maybe<TourCollection>;
   allLanguage?: Maybe<LanguageCollection>;
   allAboutPage?: Maybe<AboutPageCollection>;
@@ -118,6 +119,11 @@ export type EntriesTourChapterArgs = {
 
 
 export type EntriesChapterContentArgs = {
+  id: Scalars['String'];
+};
+
+
+export type EntriesTitleTranslationArgs = {
   id: Scalars['String'];
 };
 
@@ -142,6 +148,7 @@ export type EntriesAllTourChapterArgs = {
   orderBy?: Maybe<Array<Maybe<TourChapterOrderBy>>>;
   skip?: Scalars['Int'];
   take?: Scalars['Int'];
+  inherit?: Scalars['Boolean'];
 };
 
 
@@ -150,6 +157,16 @@ export type EntriesAllChapterContentArgs = {
   orderBy?: Maybe<Array<Maybe<ChapterContentOrderBy>>>;
   skip?: Scalars['Int'];
   take?: Scalars['Int'];
+  inherit?: Scalars['Boolean'];
+};
+
+
+export type EntriesAllTitleTranslationArgs = {
+  filter?: Maybe<TitleTranslationFilter>;
+  orderBy?: Maybe<Array<Maybe<TitleTranslationOrderBy>>>;
+  skip?: Scalars['Int'];
+  take?: Scalars['Int'];
+  inherit?: Scalars['Boolean'];
 };
 
 
@@ -158,6 +175,7 @@ export type EntriesAllTourArgs = {
   orderBy?: Maybe<Array<Maybe<TourOrderBy>>>;
   skip?: Scalars['Int'];
   take?: Scalars['Int'];
+  inherit?: Scalars['Boolean'];
 };
 
 
@@ -166,6 +184,7 @@ export type EntriesAllLanguageArgs = {
   orderBy?: Maybe<Array<Maybe<LanguageOrderBy>>>;
   skip?: Scalars['Int'];
   take?: Scalars['Int'];
+  inherit?: Scalars['Boolean'];
 };
 
 
@@ -174,6 +193,7 @@ export type EntriesAllAboutPageArgs = {
   orderBy?: Maybe<Array<Maybe<AboutPageOrderBy>>>;
   skip?: Scalars['Int'];
   take?: Scalars['Int'];
+  inherit?: Scalars['Boolean'];
 };
 
 export type IAboutPage = {
@@ -187,7 +207,6 @@ export type IAboutPage = {
 
 export type IChapterContent = {
   id: Scalars['String'];
-  pokko: Pokko;
   language: Language;
   audioFile?: Maybe<PokMedia>;
   text?: Maybe<PokRichText>;
@@ -201,24 +220,31 @@ export type ILanguage = {
   flagImage?: Maybe<PokMedia>;
 };
 
+export type ITitleTranslation = {
+  id: Scalars['String'];
+  language: Language;
+  titleTranslation: Scalars['String'];
+};
+
 export type ITour = {
   id: Scalars['String'];
   pokko: Pokko;
   name: Scalars['String'];
+  titleTranslations: Array<Maybe<TitleTranslation>>;
   heroImage: PokMedia;
   chapters: Array<Maybe<TourChapter>>;
 };
 
 export type ITourChapter = {
   id: Scalars['String'];
-  pokko: Pokko;
+  titleTranslations?: Maybe<Array<Maybe<TitleTranslation>>>;
   name: Scalars['String'];
   heroImage: PokMedia;
   content: Array<Maybe<ChapterContent>>;
 };
 
 
-export type Language = PokEntry & PokValue & ILanguage & {
+export type Language = PokEntry & ILanguage & {
   __typename?: 'Language';
   id: Scalars['String'];
   pokko: Pokko;
@@ -229,7 +255,7 @@ export type Language = PokEntry & PokValue & ILanguage & {
 
 export type LanguageCollection = {
   __typename?: 'LanguageCollection';
-  nodes: Array<Maybe<Language>>;
+  nodes: Array<Maybe<ILanguage>>;
   pageInfo: PageInfo;
   totalCount: Scalars['Int'];
 };
@@ -418,19 +444,56 @@ export type SyncCondition = {
   after?: Maybe<Scalars['String']>;
 };
 
-export type Tour = PokEntry & PokValue & ITour & {
+export type TitleTranslation = PokValue & ITitleTranslation & {
+  __typename?: 'TitleTranslation';
+  id: Scalars['String'];
+  language: Language;
+  titleTranslation: Scalars['String'];
+};
+
+export type TitleTranslationCollection = {
+  __typename?: 'TitleTranslationCollection';
+  nodes: Array<Maybe<ITitleTranslation>>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type TitleTranslationCondition = {
+  language?: Maybe<Scalars['String']>;
+  titleTranslation?: Maybe<Scalars['String']>;
+};
+
+export type TitleTranslationFilter = {
+  language?: Maybe<ScalarIdFilter>;
+  titleTranslation?: Maybe<ScalarStringFilter>;
+  id?: Maybe<ScalarIdFilter>;
+  and?: Maybe<Array<TitleTranslationFilter>>;
+  or?: Maybe<Array<TitleTranslationFilter>>;
+};
+
+export enum TitleTranslationOrderBy {
+  CreatedAsc = 'CREATED_ASC',
+  CreatedDesc = 'CREATED_DESC',
+  ModifiedAsc = 'MODIFIED_ASC',
+  ModifiedDesc = 'MODIFIED_DESC',
+  TitleTranslationAsc = 'TITLE_TRANSLATION_ASC',
+  TitleTranslationDesc = 'TITLE_TRANSLATION_DESC'
+}
+
+export type Tour = PokEntry & ITour & {
   __typename?: 'Tour';
   id: Scalars['String'];
   pokko: Pokko;
   name: Scalars['String'];
+  titleTranslations: Array<Maybe<TitleTranslation>>;
   heroImage: PokMedia;
   chapters: Array<Maybe<TourChapter>>;
 };
 
-export type TourChapter = PokEntry & PokValue & ITourChapter & {
+export type TourChapter = PokValue & ITourChapter & {
   __typename?: 'TourChapter';
   id: Scalars['String'];
-  pokko: Pokko;
+  titleTranslations?: Maybe<Array<Maybe<TitleTranslation>>>;
   name: Scalars['String'];
   heroImage: PokMedia;
   content: Array<Maybe<ChapterContent>>;
@@ -438,7 +501,7 @@ export type TourChapter = PokEntry & PokValue & ITourChapter & {
 
 export type TourChapterCollection = {
   __typename?: 'TourChapterCollection';
-  nodes: Array<Maybe<TourChapter>>;
+  nodes: Array<Maybe<ITourChapter>>;
   pageInfo: PageInfo;
   totalCount: Scalars['Int'];
 };
@@ -465,7 +528,7 @@ export enum TourChapterOrderBy {
 
 export type TourCollection = {
   __typename?: 'TourCollection';
-  nodes: Array<Maybe<Tour>>;
+  nodes: Array<Maybe<ITour>>;
   pageInfo: PageInfo;
   totalCount: Scalars['Int'];
 };
@@ -518,7 +581,7 @@ export type TourContentQueryVariables = Exact<{
 
 export type TourContentQuery = (
   { __typename?: 'Query' }
-  & { entry?: Maybe<{ __typename?: 'AboutPage' } | { __typename?: 'ChapterContent' } | { __typename?: 'Language' } | (
+  & { entry?: Maybe<{ __typename?: 'AboutPage' } | { __typename?: 'Language' } | (
     { __typename?: 'Tour' }
     & Pick<Tour, 'id' | 'name'>
     & { heroImage: (
@@ -527,7 +590,14 @@ export type TourContentQuery = (
     ), chapters: Array<Maybe<(
       { __typename?: 'TourChapter' }
       & Pick<TourChapter, 'id' | 'name'>
-      & { heroImage: (
+      & { titleTranslations?: Maybe<Array<Maybe<(
+        { __typename?: 'TitleTranslation' }
+        & Pick<TitleTranslation, 'titleTranslation'>
+        & { language: (
+          { __typename?: 'Language' }
+          & Pick<Language, 'localisation'>
+        ) }
+      )>>>, heroImage: (
         { __typename?: 'PokMedia' }
         & Pick<PokMedia, 'url'>
       ), content: Array<Maybe<(
@@ -545,7 +615,7 @@ export type TourContentQuery = (
         )> }
       )>> }
     )>> }
-  ) | { __typename?: 'TourChapter' }> }
+  )> }
 );
 
 export type ToursListQueryVariables = Exact<{ [key: string]: never; }>;
@@ -560,7 +630,14 @@ export type ToursListQuery = (
       & { nodes: Array<Maybe<(
         { __typename?: 'Tour' }
         & Pick<Tour, 'id' | 'name'>
-        & { heroImage: (
+        & { titleTranslations: Array<Maybe<(
+          { __typename?: 'TitleTranslation' }
+          & Pick<TitleTranslation, 'id' | 'titleTranslation'>
+          & { language: (
+            { __typename?: 'Language' }
+            & Pick<Language, 'id' | 'localisation'>
+          ) }
+        )>>, heroImage: (
           { __typename?: 'PokMedia' }
           & Pick<PokMedia, 'url'>
         ) }
@@ -626,6 +703,12 @@ export const TourContentDocument = gql`
         ... on TourChapter {
           id
           name
+          titleTranslations {
+            language {
+              localisation
+            }
+            titleTranslation
+          }
           heroImage {
             url
           }
@@ -684,6 +767,14 @@ export const ToursListDocument = gql`
       nodes {
         id
         name
+        titleTranslations {
+          id
+          language {
+            id
+            localisation
+          }
+          titleTranslation
+        }
         heroImage {
           url
         }

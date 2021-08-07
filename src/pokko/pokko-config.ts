@@ -18,7 +18,7 @@ const options: ApolloClientOptions<NormalizedCacheObject> = {
     typePolicies: {
       Query: {
         fields: {
-          project: {
+          entries: {
             merge: true,
           }
         }

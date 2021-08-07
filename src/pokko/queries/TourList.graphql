@@ -4,6 +4,14 @@ query ToursList{
       nodes{
         id
         name
+        titleTranslations {
+          id
+          language{
+            id
+            localisation
+          }
+          titleTranslation
+        }
         heroImage{
           url
         }

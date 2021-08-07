@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, Image, TouchableOpacity, Platform, TouchableNativeFeedback, Touchable } from 'react-native';
+import { truncate } from '../../helpers/general';
 
 import styles from './TourOption.styles';
 interface ITourOptionProps {
@@ -23,7 +24,7 @@ const TourOption = ({ tourName, imageUri, onPress }: ITourOptionProps) => {
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.text}>
-            {tourName}
+            {truncate(tourName, 40)}
           </Text>
         </View>
       </View >

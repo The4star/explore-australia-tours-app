@@ -6,16 +6,19 @@ import TourSelectionScreen from '../../screens/tour-selection-screen/TourSelecti
 import { TourCommentaryStackParamList } from '../../types/navigation.types';
 import { defaultScreenOptions } from './stack-navigator-options';
 import { RouteProp } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { Text, TouchableOpacity } from 'react-native';
-import { setLanguage } from '../../state/general.state';
-import colors from '../../constants/colors';
+import { useDispatch, useSelector } from 'react-redux';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { ICommentaryStyle, setCommentaryStyle, setLanguage } from '../../state/general.state';
+import { Entypo } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+import chapterOptionStyles from '../../components/chapter-option/ChapterOption.styles'
+import { ICombinedStates } from '../../state/store';
 
 const TourCommentaryStack = createStackNavigator<TourCommentaryStackParamList>();
 
 const TourCommentaryNavigator = () => {
   const dispatch = useDispatch()
-
+  const commentaryStyle = useSelector<ICombinedStates, ICommentaryStyle>(state => state.general.commentaryStyle)
   return (
     <TourCommentaryStack.Navigator screenOptions={defaultScreenOptions}>
       <TourCommentaryStack.Screen
@@ -30,7 +33,7 @@ const TourCommentaryNavigator = () => {
               >
                 <Text
                   style={{
-                    color: colors.green,
+                    color: tintColor,
                     fontFamily: 'open-sans',
                     fontSize: 18,
                     marginRight: 10
@@ -55,9 +58,26 @@ const TourCommentaryNavigator = () => {
       <TourCommentaryStack.Screen
         name="TourCommentary"
         component={TourCommentaryScreen}
-        options={() => {
+        options={({ route }: { route: RouteProp<TourCommentaryStackParamList, "TourCommentary"> }) => {
           return {
-            headerTitle: "Chapter Name goes here"
+            headerTitle: route.params.chapterName,
+            headerRight: ({ tintColor }) => (
+              <View style={{ marginRight: 20, marginBottom: 5 }}>
+                <TouchableOpacity onPress={() => dispatch(setCommentaryStyle(commentaryStyle === 'read' ? 'listen' : 'read'))} >
+                  <View style={chapterOptionStyles.button}>
+                    <View style={chapterOptionStyles.buttonImage}>
+                      {
+                        commentaryStyle === 'read' ?
+                          <AntDesign name="sound" size={24} color={tintColor} />
+                          :
+                          <Entypo name="open-book" size={24} color={tintColor} />
+                      }
+                    </View>
+                    <Text style={{ ...chapterOptionStyles.text, ...{ color: tintColor } }}>{commentaryStyle === 'read' ? 'Listen' : 'Read'}</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            )
           }
         }}
       />
