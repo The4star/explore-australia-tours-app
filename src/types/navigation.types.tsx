@@ -1,5 +1,8 @@
-export type TourCommentaryStackParamList = {
+export type LanguageStackParamList = {
   LanguageSelection: undefined;
+}
+
+export type TourCommentaryStackParamList = {
   TourSelection: undefined;
   ChapterSelection: IChapterSelectionParams;
   TourCommentary: undefined;

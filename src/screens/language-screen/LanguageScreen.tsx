@@ -7,7 +7,9 @@ import {
   ActivityIndicator,
   FlatList,
   ListRenderItemInfo,
-  Alert
+  Alert,
+  Platform,
+  TouchableNativeFeedback
 } from 'react-native';
 import * as Localization from 'expo-localization';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,36 +19,34 @@ import { client } from '../../pokko/pokko-config'
 import { Language, useLanguagesQuery } from '../../pokko/query';
 import colors from '../../constants/colors';
 import LanguageOption from '../../components/language-option/LanguageOption';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { TourCommentaryStackParamList } from '../../types/navigation.types';
+import { useDispatch } from 'react-redux';
+import { setLanguage } from '../../state/general.state';
 
-interface ILanguageScreenProps {
-  navigation: StackNavigationProp<TourCommentaryStackParamList, 'LanguageSelection'>
-}
-
-
-const LanguageScreen = ({ navigation }: ILanguageScreenProps) => {
+const LanguageScreen = () => {
+  const dispatch = useDispatch()
   const { loading, data } = useLanguagesQuery({ client });
   const languages = data?.entries?.allLanguage?.nodes as Language[]
-  const setLanguage = (selectedLanguage?: string) => {
+  const LanguageLogic = (selectedLanguage?: string) => {
     try {
       // https://www.venea.net/web/culture_code
       const availableLocales = languages.map(l => l.localisation);
       const languageToUse = selectedLanguage ? selectedLanguage : Localization.locale.split("-")[0];
-      console.log(languageToUse);
       if (!availableLocales.includes(languageToUse)) {
         throw new Error("Language not available, please choose one from the list");
       }
+      dispatch(setLanguage(languageToUse))
       AsyncStorage.setItem('Language', languageToUse);
-      navigation.navigate({
-        name: "TourSelection",
-        params: undefined
-      })
     } catch (error: any) {
       Alert.alert('Language Error', error.message, [
         { text: "OK" }
       ])
     }
+  }
+
+  let TouchableComponent: any = TouchableOpacity;
+
+  if (Platform.OS === 'android' && Platform.Version >= 21) {
+    TouchableComponent = TouchableNativeFeedback
   }
 
   return (
@@ -55,11 +55,13 @@ const LanguageScreen = ({ navigation }: ILanguageScreenProps) => {
         <Image source={Logo} style={styles.logo} />
       </View>
       <View>
-        <TouchableOpacity onPress={() => setLanguage()} style={styles.plButton}>
-          <Text style={styles.plButtonText}>
-            Use Phone Language
+        <View style={styles.plButton}>
+          <TouchableComponent onPress={() => LanguageLogic()} >
+            <Text style={styles.plButtonText}>
+              Use Phone Language
           </Text>
-        </TouchableOpacity>
+          </TouchableComponent>
+        </View>
         <Text style={styles.plBelowText}>
           or select from below
         </Text>
@@ -69,7 +71,7 @@ const LanguageScreen = ({ navigation }: ILanguageScreenProps) => {
           <ActivityIndicator size="large" color={colors.purple} />
           :
           <FlatList style={{ width: '90%', height: '60%' }} data={languages} numColumns={2} renderItem={(itemData: ListRenderItemInfo<Language>) => (
-            <LanguageOption onPress={() => setLanguage(itemData.item.localisation)} language={itemData.item.name} imageUri={itemData.item.flagImage?.url!} />
+            <LanguageOption onPress={() => LanguageLogic(itemData.item.localisation)} language={itemData.item.name} imageUri={itemData.item.flagImage?.url!} />
           )} />
       }
     </View>

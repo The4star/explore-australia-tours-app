@@ -14,7 +14,17 @@ const config = {
 };
 
 const options: ApolloClientOptions<NormalizedCacheObject> = {
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          project: {
+            merge: true,
+          }
+        }
+      }
+    }
+  }),
 
   headers: {
     "X-Token": config.token,

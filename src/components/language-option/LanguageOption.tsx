@@ -9,6 +9,7 @@ interface ILanguageOptionProps {
 
 }
 const LanguageOption = ({ language, imageUri, onPress }: ILanguageOptionProps) => {
+
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity onPress={() => onPress()}>
