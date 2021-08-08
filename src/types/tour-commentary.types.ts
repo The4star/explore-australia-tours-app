@@ -1,5 +1,15 @@
 export interface IChapterReadyContent {
-  text: string | null;
+  text: IPokkoContent[];
   audioUrl: string | null
   heroImage: string | null
+}
+
+export interface IPokkoContent {
+  children: IPokkoContentChild[];
+  type: string;
+}
+
+export interface IPokkoContentChild {
+  text: string;
+  bold?: boolean;
 }

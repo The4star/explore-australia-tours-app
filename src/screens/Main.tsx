@@ -7,7 +7,6 @@ import { ICombinedStates } from '../state/store';
 
 const Main = () => {
   const language = useSelector<ICombinedStates, string | null>(state => state.general.language)
-  console.log(language);
 
   if (language) {
     return (
