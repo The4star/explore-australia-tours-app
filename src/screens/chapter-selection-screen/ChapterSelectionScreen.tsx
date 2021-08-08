@@ -1,6 +1,6 @@
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React from 'react'
+import React, { useState } from 'react'
 import { View, ActivityIndicator, Image, FlatList, ListRenderItemInfo } from 'react-native';
 import { useSelector } from 'react-redux';
 import ChapterOption from '../../components/chapter-option/ChapterOption';
@@ -20,6 +20,7 @@ const ChapterSelectionScreen = ({ route, navigation }: IChapterSelectionScreenPr
   const tourId = route.params.tourId
   const language = useSelector<ICombinedStates, string | null>(state => state.general.language)
   const { loading, data } = useTourContentQuery({ client, variables: { id: tourId } })
+  const [loadingImage, setLoadingImage] = useState<boolean>(false)
   const selectedTour = data?.entry as Tour
 
   if (loading) {
@@ -33,7 +34,17 @@ const ChapterSelectionScreen = ({ route, navigation }: IChapterSelectionScreenPr
   return (
     <View style={styles.contentScreen} >
       <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{ uri: selectedTour.heroImage.url }} />
+        {
+          loadingImage ?
+            <ActivityIndicator size="small" color={colors.purple} />
+            : null
+        }
+        <Image
+          style={{ ...styles.image, ...loadingImage ? { height: 0 } : { height: '100%' } }}
+          source={{ uri: selectedTour.heroImage.url }}
+          onLoadStart={() => setLoadingImage(true)}
+          onLoadEnd={() => setLoadingImage(false)}
+        />
       </View>
       <View style={styles.listContainer}>
         <FlatList contentContainerStyle={styles.list} data={selectedTour.chapters as TourChapter[]} renderItem={(itemData: ListRenderItemInfo<TourChapter>) => {
@@ -48,9 +59,11 @@ const ChapterSelectionScreen = ({ route, navigation }: IChapterSelectionScreenPr
             const translatedContent = itemData.item.content.find(tc => tc?.language.localisation === language)
             const text = translatedContent?.text?.body[0].children[0].text
             const audioUrl = translatedContent?.audioFile?.url
+
             return {
               text: text ? text : null,
-              audioUrl: audioUrl ? audioUrl : null
+              audioUrl: audioUrl ? audioUrl : null,
+              heroImage: itemData.item.heroImage.url
             }
           }
 
