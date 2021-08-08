@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, Platform, TouchableNativeFeedback, Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { ICommentaryStyle, setCommentaryStyle } from '../../state/general.state';
+import { ICommentaryStyle, setCommentaryContent, setCommentaryStyle } from '../../state/general.state';
 import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import styles from './ChapterOption.styles';
@@ -27,6 +27,7 @@ const ChapterOption = ({ chapterName, chapterContent, index, chapterAmount, navi
   }
 
   const openChapter = (commentaryStyle: ICommentaryStyle) => {
+    dispatch(setCommentaryContent(chapterContent))
     dispatch(setCommentaryStyle(commentaryStyle));
     navigation.navigate({
       name: "TourCommentary",

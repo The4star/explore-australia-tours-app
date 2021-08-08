@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
     height: '80%',
     overflow: 'hidden',
     borderTopLeftRadius: 10,
-    borderTopRightRadius: 10
+    borderTopRightRadius: 10,
+    justifyContent: 'center'
   },
   image: {
     width: '100%',
