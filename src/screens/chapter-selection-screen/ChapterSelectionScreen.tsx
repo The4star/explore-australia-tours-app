@@ -57,7 +57,7 @@ const ChapterSelectionScreen = ({ route, navigation }: IChapterSelectionScreenPr
           }
           const getChapterContent = () => {
             const translatedContent = itemData.item.content.find(tc => tc?.language.localisation === language)
-            const text = translatedContent?.text?.body[0].children[0].text
+            const text = translatedContent?.text?.body
             const audioUrl = translatedContent?.audioFile?.url
 
             return {

@@ -4,6 +4,7 @@ import { View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
 import AudioPlayer from '../../components/audio-player/AudioPlayer';
 import colors from '../../constants/colors';
+import { parsePokkoContent } from '../../helpers/pokko';
 import { ICommentaryStyle } from '../../state/general.state';
 import { ICombinedStates } from '../../state/store';
 import { TourCommentaryStackParamList } from '../../types/navigation.types';
@@ -38,9 +39,7 @@ const TourCommentaryScreen = ({ route }: ITourCommentaryScreenProps) => {
       {
         commentaryStyle === 'read' ?
           <ScrollView style={styles.textContainer}>
-            <Text style={styles.text}>
-              {commentaryContent.text}
-            </Text>
+            {parsePokkoContent(commentaryContent.text)}
           </ScrollView>
           : null
       }

@@ -1,0 +1,16 @@
+query AboutPage {
+  entries {
+    aboutPage(id: "895463b6-568b-49b4-ad61-e0b43516763a"){
+      id,
+      heroImage{
+        id
+        url
+      }
+      content{
+        body
+      }
+      brochureLink
+      promoVideoLink
+    }
+  }
+}

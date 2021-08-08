@@ -24,7 +24,10 @@ const AudioPlayer = ({ audioSource }: IAudioPlayerProps) => {
   }
 
   const playAudio = async () => {
-    await loadedSound?.playAsync();
+    if (loadedSound) {
+      await loadedSound?.playAsync();
+    }
+    return
   }
 
   const pauseAudio = async () => {
@@ -33,20 +36,25 @@ const AudioPlayer = ({ audioSource }: IAudioPlayerProps) => {
 
   const fastForwardAudio = async () => {
     const fastForwardMillis = 5000
-    if (audioStatus.currentPosition + fastForwardMillis < audioStatus.duration) {
-      await loadedSound?.setPositionAsync(audioStatus.currentPosition + fastForwardMillis)
-    } else {
-      await loadedSound?.setPositionAsync(audioStatus.duration)
+    if (loadedSound) {
+      if (audioStatus.currentPosition + fastForwardMillis < audioStatus.duration) {
+        await loadedSound?.setPositionAsync(audioStatus.currentPosition + fastForwardMillis)
+      } else {
+        await loadedSound?.setPositionAsync(audioStatus.duration)
+      }
     }
   }
 
   const rewindAudio = async () => {
     const rewindMillis = 5000
-    if (audioStatus.currentPosition - rewindMillis > 0) {
-      await loadedSound?.setPositionAsync(audioStatus.currentPosition - rewindMillis)
-    } else {
-      await loadedSound?.setPositionAsync(0)
+    if (loadedSound) {
+      if (audioStatus.currentPosition - rewindMillis > 0) {
+        await loadedSound?.setPositionAsync(audioStatus.currentPosition - rewindMillis)
+      } else {
+        await loadedSound?.setPositionAsync(0)
+      }
     }
+
   }
 
   const playbackStatus = useCallback((status: any) => {
@@ -106,7 +114,7 @@ const AudioPlayer = ({ audioSource }: IAudioPlayerProps) => {
   return (
     <View style={styles.container}>
       <View style={styles.controls}>
-        <TouchableComponent onPress={() => playing ? rewindAudio() : null} >
+        <TouchableComponent onPress={() => rewindAudio()} >
           <View style={styles.button}>
             <FontAwesome name="backward" size={50} color={colors.green} />
           </View>
@@ -116,7 +124,7 @@ const AudioPlayer = ({ audioSource }: IAudioPlayerProps) => {
             <FontAwesome name={playing ? "pause" : "play"} size={50} color={colors.green} style={{ marginLeft: playing ? 1 : 11 }} />
           </View>
         </TouchableComponent>
-        <TouchableComponent onPress={() => playing ? fastForwardAudio() : null}>
+        <TouchableComponent onPress={() => fastForwardAudio()}>
           <View style={styles.button}>
             <FontAwesome name="forward" size={50} color={colors.green} />
           </View>
