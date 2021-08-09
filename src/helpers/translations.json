@@ -1,0 +1,142 @@
+{
+  "usePhoneLanguage": {
+    "en": "Use Phone Language",
+    "es": "Usar idioma del teléfono",
+    "it": "Usa la lingua del telefono",
+    "fr": "Utiliser la langue du téléphone",
+    "de": "Telefonsprache verwenden",
+    "zh": "使用电话语言",
+    "ko": "전화 언어 사용",
+    "ja": "電話言語を使用する"
+  },
+  "selectBelow": {
+    "en": "or select from below",
+    "es": "o seleccione de abajo",
+    "it": "o seleziona dal basso",
+    "fr": "ou sélectionnez ci-dessous",
+    "de": "oder wählen Sie unten aus",
+    "zh": "或从下面选择",
+    "ko": "또는 아래에서 선택",
+    "ja": "または下から選択"
+  },
+  "LanguageError": {
+    "en": "Language not available, please choose one from the list",
+    "es": "Idioma no disponible, elija uno de la lista",
+    "it": "Lingua non disponibile, scegline una dall'elenco",
+    "fr": "Langue non disponible, veuillez en choisir une dans la liste",
+    "de": "Sprache nicht verfügbar, bitte wählen Sie eine aus der Liste",
+    "zh": "语言不可用，请从列表中选择一种",
+    "ko": "언어를 사용할 수 없습니다. 목록에서 하나를 선택하세요.",
+    "ja": "言語が利用できません。リストから1つ選択してください"
+  },
+  "contentNotAvailable": {
+    "en": "Content not available",
+    "es": "Contenido no disponible",
+    "it": "Contenuto non disponibile",
+    "fr": "Contenu non disponible",
+    "de": "Inhalt nicht verfügbar",
+    "zh": "内容不可用",
+    "ko": "사용할 수 없는 콘텐츠",
+    "ja": "コンテンツは利用できません"
+  },
+  "contentNotAvailableText": {
+    "en": "No content available for selected chapter in your chosen language",
+    "es": "No hay contenido disponible para el capítulo seleccionado en el idioma elegido",
+    "it": "Nessun contenuto disponibile per il capitolo selezionato nella lingua scelta",
+    "fr": "Aucun contenu disponible pour le chapitre sélectionné dans la langue de votre choix",
+    "de": "Kein Inhalt für das ausgewählte Kapitel in der von Ihnen gewählten Sprache verfügbar",
+    "zh": "没有内容可用于所选语言的所选章节",
+    "ko": "선택한 언어로 선택한 챕터에 사용할 수 있는 콘텐츠가 없습니다.",
+    "ja": "選択した言語で選択した章に利用できるコンテンツがありません"
+  },
+  "tourCommentary": {
+    "en": "Content not available",
+    "es": "Comentario del tour",
+    "it": "Commento del tour",
+    "fr": "Commentaire de la visite",
+    "de": "Tourkommentar",
+    "zh": "旅游解说",
+    "ko": "투어 해설",
+    "ja": "ツアー解説"
+  },
+  "about": {
+    "en": "Content not available",
+    "es": "Acerca de",
+    "it": "Di",
+    "fr": "À propos de",
+    "de": "Über",
+    "zh": "关于",
+    "ko": "에 대한",
+    "ja": "約"
+  },
+  "aboutEA": {
+    "en": "Content not available",
+    "es": "Acerca de Explore Australia Tours",
+    "it": "Informazioni su Explore Australia Tours",
+    "fr": "À propos des circuits Explore Australia",
+    "de": "Über Explore Australia Tours",
+    "zh": "关于探索澳大利亚之旅",
+    "ko": "호주 투어 둘러보기 정보",
+    "ja": "エクスプローラーオーストラリアツアーについて"
+  },
+  "tours": {
+    "en": "Tours",
+    "es": "Excursiones",
+    "it": "Tour",
+    "fr": "Visites",
+    "de": "Touren",
+    "zh": "旅游",
+    "ko": "투어",
+    "ja": "ツアー"
+  },
+  "changeLanguage": {
+    "en": "Change language",
+    "es": "Cambiar idioma",
+    "it": "Cambia lingua",
+    "fr": "Changer de langue",
+    "de": "Sprache ändern",
+    "zh": "改变语言",
+    "ko": "언어 변경",
+    "ja": "言語を変更"
+  },
+  "listen": {
+    "en": "Listen",
+    "es": "Escuchar",
+    "it": "Ascolta",
+    "fr": "Ecoutez",
+    "de": "Hör mal zu",
+    "zh": "听",
+    "ko": "듣다",
+    "ja": "聞く"
+  },
+  "read": {
+    "en": "Read",
+    "es": "Leer",
+    "it": "Leggi",
+    "fr": "Lis",
+    "de": "Lesen",
+    "zh": "读",
+    "ko": "읽다",
+    "ja": "読む"
+  },
+  "viewBrochure": {
+    "en": "View Brochure",
+    "es": "Ver folleto",
+    "it": "Visualizza brochure",
+    "fr": "Voir la brochure",
+    "de": "Broschüre ansehen",
+    "zh": "查看手册",
+    "ko": "브로셔 보기",
+    "ja": "パンフレットを見る"
+  },
+  "viewVideo": {
+    "en": "View Promo Video",
+    "es": "Ver video promocional",
+    "it": "Guarda il video promozionale",
+    "fr": "Voir la vidéo promotionnelle",
+    "de": "Werbevideo ansehen",
+    "zh": "查看宣传视频",
+    "ko": "프로모션 비디오 보기",
+    "ja": "プロモーションビデオを見る"
+  }
+}
