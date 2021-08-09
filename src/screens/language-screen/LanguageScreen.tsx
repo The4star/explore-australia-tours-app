@@ -21,18 +21,21 @@ import colors from '../../constants/colors';
 import LanguageOption from '../../components/language-option/LanguageOption';
 import { useDispatch } from 'react-redux';
 import { setLanguage } from '../../state/general.state';
+import { translate } from '../../helpers/general';
 
 const LanguageScreen = () => {
   const dispatch = useDispatch()
   const { loading, data } = useLanguagesQuery({ client });
-  const languages = data?.entries?.allLanguage?.nodes as Language[]
+  const languages = data?.entries?.allLanguage?.nodes as Language[];
+  const phoneLanguage = Localization.locale.split("-")[0];
+
   const LanguageLogic = (selectedLanguage?: string) => {
     try {
       // https://www.venea.net/web/culture_code
       const availableLocales = languages.map(l => l.localisation);
-      const languageToUse = selectedLanguage ? selectedLanguage : Localization.locale.split("-")[0];
+      const languageToUse = selectedLanguage ? selectedLanguage : phoneLanguage
       if (!availableLocales.includes(languageToUse)) {
-        throw new Error("Language not available, please choose one from the list");
+        throw new Error(translate("LanguageError", phoneLanguage));
       }
       dispatch(setLanguage(languageToUse))
       AsyncStorage.setItem('Language', languageToUse);
@@ -58,12 +61,12 @@ const LanguageScreen = () => {
         <View style={styles.plButton}>
           <TouchableComponent onPress={() => LanguageLogic()} >
             <Text style={styles.plButtonText}>
-              Use Phone Language
-          </Text>
+              {translate("usePhoneLanguage", phoneLanguage)}
+            </Text>
           </TouchableComponent>
         </View>
         <Text style={styles.plBelowText}>
-          or select from below
+          {translate("selectBelow", phoneLanguage)}
         </Text>
       </View>
       {

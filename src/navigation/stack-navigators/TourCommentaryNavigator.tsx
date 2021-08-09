@@ -13,12 +13,14 @@ import { Entypo } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import chapterOptionStyles from '../../components/chapter-option/ChapterOption.styles'
 import { ICombinedStates } from '../../state/store';
+import { translate } from '../../helpers/general';
 
 const TourCommentaryStack = createStackNavigator<TourCommentaryStackParamList>();
 
 const TourCommentaryNavigator = () => {
   const dispatch = useDispatch()
   const commentaryStyle = useSelector<ICombinedStates, ICommentaryStyle>(state => state.general.commentaryStyle)
+  const language = useSelector<ICombinedStates, string | null>(state => state.general.language)
   return (
     <TourCommentaryStack.Navigator screenOptions={defaultScreenOptions}>
       <TourCommentaryStack.Screen
@@ -26,7 +28,7 @@ const TourCommentaryNavigator = () => {
         component={TourSelectionScreen}
         options={() => {
           return {
-            headerTitle: "Tours",
+            headerTitle: translate("tours", language!),
             headerRight: ({ tintColor }) => (
               <TouchableOpacity
                 onPress={() => dispatch(setLanguage(null))}
@@ -35,11 +37,11 @@ const TourCommentaryNavigator = () => {
                   style={{
                     color: tintColor,
                     fontFamily: 'open-sans',
-                    fontSize: 18,
+                    fontSize: 14,
                     marginRight: 10
                   }}
                 >
-                  Change Language
+                  {translate("changeLanguage", language!)}
                 </Text>
               </TouchableOpacity>
             )
@@ -73,7 +75,7 @@ const TourCommentaryNavigator = () => {
                           <Entypo name="open-book" size={24} color={tintColor} />
                       }
                     </View>
-                    <Text style={{ ...chapterOptionStyles.text, ...{ color: tintColor } }}>{commentaryStyle === 'read' ? 'Listen' : 'Read'}</Text>
+                    <Text style={{ ...chapterOptionStyles.text, ...{ color: tintColor } }}>{commentaryStyle === 'read' ? translate('listen', language!) : translate('read', language!)}</Text>
                   </View>
                 </TouchableOpacity>
               </View>

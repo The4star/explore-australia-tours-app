@@ -7,10 +7,14 @@ import { client } from '../../pokko/pokko-config'
 import { useAboutPageQuery } from '../../pokko/query';
 import { IPokkoContent } from '../../types/tour-commentary.types';
 import styles from './AboutScreen.styles';
+import { useSelector } from 'react-redux';
+import { ICombinedStates } from '../../state/store';
+import { translate } from '../../helpers/general';
 
 const AboutScreen = () => {
   const { loading, data } = useAboutPageQuery({ client });
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
+  const language = useSelector<ICombinedStates, string | null>(state => state.general.language)
   const heroImage = data?.entries?.aboutPage?.heroImage.url;
   const content = data?.entries?.aboutPage?.content.body as IPokkoContent[];
   const brochureLink = data?.entries?.aboutPage?.brochureLink as string;
@@ -50,14 +54,14 @@ const AboutScreen = () => {
       <View style={styles.plButton}>
         <TouchableComponent onPress={() => Linking.openURL(brochureLink)} >
           <Text style={styles.plButtonText}>
-            View Brochure
+            {translate('viewBrochure', language!)}
           </Text>
         </TouchableComponent>
       </View>
       <View style={styles.plButton}>
         <TouchableComponent onPress={() => Linking.openURL(promoVideoLink)} >
           <Text style={styles.plButtonText}>
-            View Promo Video
+            {translate('viewVideo', language!)}
           </Text>
         </TouchableComponent>
       </View>
