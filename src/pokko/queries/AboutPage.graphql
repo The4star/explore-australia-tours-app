@@ -9,6 +9,17 @@ query AboutPage {
       content{
         body
       }
+      contentTranslations{
+        ...on GeneralTranslation{
+          id
+          language{
+            localisation 
+          }
+          content{
+            body
+          }
+        }
+      }
       brochureLink
       promoVideoLink
     }

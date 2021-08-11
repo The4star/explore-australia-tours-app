@@ -50,7 +50,7 @@
     "ja": "選択した言語で選択した章に利用できるコンテンツがありません"
   },
   "tourCommentary": {
-    "en": "Content not available",
+    "en": "Tour Commentary",
     "es": "Comentario del tour",
     "it": "Commento del tour",
     "fr": "Commentaire de la visite",
@@ -60,7 +60,7 @@
     "ja": "ツアー解説"
   },
   "about": {
-    "en": "Content not available",
+    "en": "About",
     "es": "Acerca de",
     "it": "Di",
     "fr": "À propos de",
@@ -70,7 +70,7 @@
     "ja": "約"
   },
   "aboutEA": {
-    "en": "Content not available",
+    "en": "About Explore Australia Tours",
     "es": "Acerca de Explore Australia Tours",
     "it": "Informazioni su Explore Australia Tours",
     "fr": "À propos des circuits Explore Australia",

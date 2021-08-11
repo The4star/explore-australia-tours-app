@@ -16,9 +16,19 @@ const AboutScreen = () => {
   const [loadingImage, setLoadingImage] = useState<boolean>(false);
   const language = useSelector<ICombinedStates, string | null>(state => state.general.language)
   const heroImage = data?.entries?.aboutPage?.heroImage.url;
-  const content = data?.entries?.aboutPage?.content.body as IPokkoContent[];
   const brochureLink = data?.entries?.aboutPage?.brochureLink as string;
   const promoVideoLink = data?.entries?.aboutPage?.promoVideoLink as string;
+
+  const getContent = () => {
+    const defaultContent = data?.entries?.aboutPage?.content.body as IPokkoContent[];
+    if (language === 'en') {
+      return defaultContent
+    } else {
+      const translatedContent = data?.entries?.aboutPage?.contentTranslations.find(translation => translation?.language?.localisation === language)?.content.body;
+      return translatedContent ? translatedContent : defaultContent
+    }
+  }
+
   let TouchableComponent: any = TouchableOpacity;
 
   if (Platform.OS === 'android' && Platform.Version >= 21) {
@@ -49,7 +59,7 @@ const AboutScreen = () => {
         />
       </View>
       <ScrollView style={styles.contentContainer}>
-        {parsePokkoContent(content)}
+        {parsePokkoContent(getContent() as IPokkoContent[])}
       </ScrollView>
       <View style={styles.plButton}>
         <TouchableComponent onPress={() => Linking.openURL(brochureLink)} >

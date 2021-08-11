@@ -20,6 +20,7 @@ export type AboutPage = PokEntry & IAboutPage & {
   __typename?: 'AboutPage';
   id: Scalars['String'];
   pokko: Pokko;
+  contentTranslations: Array<Maybe<GeneralTranslation>>;
   heroImage: PokMedia;
   content: PokRichText;
   promoVideoLink?: Maybe<Scalars['String']>;
@@ -102,12 +103,14 @@ export type Entries = {
   chapterContent?: Maybe<ChapterContent>;
   titleTranslation?: Maybe<TitleTranslation>;
   tour?: Maybe<Tour>;
+  generalTranslation?: Maybe<GeneralTranslation>;
   language?: Maybe<Language>;
   aboutPage?: Maybe<AboutPage>;
   allTourChapter?: Maybe<TourChapterCollection>;
   allChapterContent?: Maybe<ChapterContentCollection>;
   allTitleTranslation?: Maybe<TitleTranslationCollection>;
   allTour?: Maybe<TourCollection>;
+  allGeneralTranslation?: Maybe<GeneralTranslationCollection>;
   allLanguage?: Maybe<LanguageCollection>;
   allAboutPage?: Maybe<AboutPageCollection>;
 };
@@ -129,6 +132,11 @@ export type EntriesTitleTranslationArgs = {
 
 
 export type EntriesTourArgs = {
+  id: Scalars['String'];
+};
+
+
+export type EntriesGeneralTranslationArgs = {
   id: Scalars['String'];
 };
 
@@ -179,6 +187,15 @@ export type EntriesAllTourArgs = {
 };
 
 
+export type EntriesAllGeneralTranslationArgs = {
+  filter?: Maybe<GeneralTranslationFilter>;
+  orderBy?: Maybe<Array<Maybe<GeneralTranslationOrderBy>>>;
+  skip?: Scalars['Int'];
+  take?: Scalars['Int'];
+  inherit?: Scalars['Boolean'];
+};
+
+
 export type EntriesAllLanguageArgs = {
   filter?: Maybe<LanguageFilter>;
   orderBy?: Maybe<Array<Maybe<LanguageOrderBy>>>;
@@ -196,9 +213,45 @@ export type EntriesAllAboutPageArgs = {
   inherit?: Scalars['Boolean'];
 };
 
+export type GeneralTranslation = PokValue & IGeneralTranslation & {
+  __typename?: 'GeneralTranslation';
+  id: Scalars['String'];
+  language?: Maybe<Language>;
+  content: PokRichText;
+};
+
+export type GeneralTranslationCollection = {
+  __typename?: 'GeneralTranslationCollection';
+  nodes: Array<Maybe<IGeneralTranslation>>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type GeneralTranslationCondition = {
+  language?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+};
+
+export type GeneralTranslationFilter = {
+  language?: Maybe<ScalarIdFilter>;
+  id?: Maybe<ScalarIdFilter>;
+  and?: Maybe<Array<GeneralTranslationFilter>>;
+  or?: Maybe<Array<GeneralTranslationFilter>>;
+};
+
+export enum GeneralTranslationOrderBy {
+  ContentAsc = 'CONTENT_ASC',
+  ContentDesc = 'CONTENT_DESC',
+  CreatedAsc = 'CREATED_ASC',
+  CreatedDesc = 'CREATED_DESC',
+  ModifiedAsc = 'MODIFIED_ASC',
+  ModifiedDesc = 'MODIFIED_DESC'
+}
+
 export type IAboutPage = {
   id: Scalars['String'];
   pokko: Pokko;
+  contentTranslations: Array<Maybe<GeneralTranslation>>;
   heroImage: PokMedia;
   content: PokRichText;
   promoVideoLink?: Maybe<Scalars['String']>;
@@ -210,6 +263,12 @@ export type IChapterContent = {
   language: Language;
   audioFile?: Maybe<PokMedia>;
   text?: Maybe<PokRichText>;
+};
+
+export type IGeneralTranslation = {
+  id: Scalars['String'];
+  language?: Maybe<Language>;
+  content: PokRichText;
 };
 
 export type ILanguage = {
@@ -569,7 +628,17 @@ export type AboutPageQuery = (
       ), content: (
         { __typename?: 'PokRichText' }
         & Pick<PokRichText, 'body'>
-      ) }
+      ), contentTranslations: Array<Maybe<(
+        { __typename?: 'GeneralTranslation' }
+        & Pick<GeneralTranslation, 'id'>
+        & { language?: Maybe<(
+          { __typename?: 'Language' }
+          & Pick<Language, 'localisation'>
+        )>, content: (
+          { __typename?: 'PokRichText' }
+          & Pick<PokRichText, 'body'>
+        ) }
+      )>> }
     )> }
   )> }
 );
@@ -679,6 +748,17 @@ export const AboutPageDocument = gql`
       }
       content {
         body
+      }
+      contentTranslations {
+        ... on GeneralTranslation {
+          id
+          language {
+            localisation
+          }
+          content {
+            body
+          }
+        }
       }
       brochureLink
       promoVideoLink
